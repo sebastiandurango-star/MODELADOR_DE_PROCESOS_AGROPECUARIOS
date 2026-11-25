@@ -17,39 +17,79 @@
     }
     * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
     body { margin: 0; background: var(--bg); color: var(--text); padding: 20px; }
-    .wrap { max-width: 1080px; margin: 0 auto; }
+    .wrap { max-width: 1120px; margin: 0 auto; }
     h1 { margin: 0 0 6px; font-size: 1.5rem; }
     p.sub { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
     .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    label { display: block; font-size: 0.85rem; color: var(--muted); margin-top: 12px; margin-bottom: 4px; }
+    .section-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    label { display: block; font-size: 0.82rem; color: var(--muted); margin-top: 10px; margin-bottom: 4px; }
     select, input[type="range"], button {
-      width: 100%; padding: 9px 10px; border-radius: 8px;
-      border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font-size: 0.95rem;
+      width: 100%; padding: 8px 10px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font-size: 0.9rem;
     }
     .row { display: flex; gap: 10px; margin-top: 14px; }
     button { cursor: pointer; background: var(--accent); color: #052e16; font-weight: 700; border: none; }
     button.secondary { background: #334155; color: var(--text); font-weight: 600; }
-    canvas { width: 100%; height: 290px; background: var(--panel-2); border-radius: 10px; border: 1px solid var(--border); display: block; }
+    canvas { width: 100%; height: 300px; background: var(--panel-2); border-radius: 10px; border: 1px solid var(--border); display: block; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
     .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
-    .stat .val { font-size: 1.15rem; font-weight: 700; color: var(--accent-2); }
+    .stat .val { font-size: 1.1rem; font-weight: 700; color: var(--accent-2); }
     .stat .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .note { margin-top: 10px; font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Modelador Agropecuario: Descomposición en Biorreactor</h1>
-    <p class="sub">Compara cómo evoluciona la materia orgánica en minutos, horas o días según sustrato y descomponedor.</p>
+    <p class="sub">Configura entorno, sustrato, descomponedor y escala de tiempo para observar la evolución del proceso.</p>
 
     <div class="grid">
       <div class="card">
-        <strong>Configuración del proceso</strong>
+        <div class="section-title">1. Encuesta previa y configuración</div>
+
+        <div class="two-col">
+          <div>
+            <label for="thermalFloor">Piso térmico</label>
+            <select id="thermalFloor">
+              <option value="warm">Cálido (~28°C base)</option>
+              <option value="temperate" selected>Templado (~21°C base)</option>
+              <option value="cold">Frío (~14°C base)</option>
+              <option value="paramo">Páramo / alto (~9°C base)</option>
+            </select>
+          </div>
+          <div>
+            <label for="month">Mes del año</label>
+            <select id="month">
+              <option value="0">Enero</option>
+              <option value="1">Febrero</option>
+              <option value="2">Marzo</option>
+              <option value="3">Abril</option>
+              <option value="4">Mayo</option>
+              <option value="5">Junio</option>
+              <option value="6">Julio</option>
+              <option value="7">Agosto</option>
+              <option value="8">Septiembre</option>
+              <option value="9">Octubre</option>
+              <option value="10" selected>Noviembre</option>
+              <option value="11">Diciembre</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="zone">Zona agropecuaria</label>
+        <select id="zone">
+          <option value="livestock">Zona ganadera / establo</option>
+          <option value="crop" selected>Zona agrícola / cultivos</option>
+          <option value="slope">Zona de ladera / cafetera o frutícola</option>
+          <option value="agroindustry">Zona de beneficio / poscosecha</option>
+        </select>
 
         <label for="substrate">Materia orgánica</label>
         <select id="substrate">
           <option value="manure">Estiércol bovino (C/N equilibrado)</option>
-          <option value="crop">Residuos de cosecha / rastrojo (alta fibra)</option>
+          <option value="crop" selected>Residuos de cosecha / rastrojo (alta fibra)</option>
           <option value="pulp">Pulpa / residuos húmedos (rápida degradación)</option>
         </select>
 
@@ -57,7 +97,7 @@
         <select id="decomposer">
           <option value="aerobic">Bacterias aerobias (aireación activa)</option>
           <option value="anaerobic">Consorcio anaerobio (sin oxígeno / biogás)</option>
-          <option value="fungi">Hongos saprófitos (degradación fibrosa)</option>
+          <option value="fungi" selected>Hongos saprófitos (degradación fibrosa)</option>
         </select>
 
         <label for="unit">Escala de tiempo</label>
@@ -67,58 +107,85 @@
           <option value="days" selected>Días (0 a 30 días)</option>
         </select>
 
-        <label for="timeSlider">Tiempo: <span id="timeLabel">0.0 días</span></label>
+        <label for="timeSlider">Tiempo actual: <span id="timeLabel">0.0 días</span></label>
         <input id="timeSlider" type="range" min="0" max="30" step="0.1" value="0" />
 
         <div class="row">
           <button id="playBtn" type="button">▶ Animar</button>
           <button id="resetBtn" class="secondary" type="button">Reiniciar</button>
         </div>
+        <div class="note" id="envSummary"></div>
       </div>
 
       <div class="card">
-        <strong>Animación del biorreactor</strong>
-        <canvas id="simCanvas" width="600" height="290"></canvas>
+        <div class="section-title">2. Animación y curva de descomposición (% vs. tiempo)</div>
+        <canvas id="simCanvas" width="620" height="300"></canvas>
 
         <div class="stats">
           <div class="stat">
             <div class="val" id="decompVal">0.0%</div>
-            <div class="lbl">Descompuesto</div>
+            <div class="lbl">Descompuesto (%)</div>
           </div>
           <div class="stat">
             <div class="val" id="biomassVal">0.0%</div>
             <div class="lbl">Actividad microbiana</div>
           </div>
           <div class="stat">
-            <div class="val" id="tempVal">22.0°C</div>
-            <div class="lbl">Temp. estimada</div>
+            <div class="val" id="tempVal">21.0°C</div>
+            <div class="lbl">Temp. en tanque</div>
           </div>
+        </div>
+        <div class="note">
+          Eje Y de la gráfica: <strong>0% a 100% de materia orgánica descompuesta</strong>. Eje X: <strong>tiempo en la escala elegida</strong> (min, h o días).
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    const thermalEl = document.getElementById("thermalFloor");
+    const monthEl = document.getElementById("month");
+    const zoneEl = document.getElementById("zone");
     const substrateEl = document.getElementById("substrate");
     const decomposerEl = document.getElementById("decomposer");
     const unitEl = document.getElementById("unit");
     const sliderEl = document.getElementById("timeSlider");
     const timeLabelEl = document.getElementById("timeLabel");
+    const envSummaryEl = document.getElementById("envSummary");
     const playBtn = document.getElementById("playBtn");
     const resetBtn = document.getElementById("resetBtn");
     const canvas = document.getElementById("simCanvas");
     const ctx = canvas.getContext("2d");
 
+    const thermalBase = { warm: 28, temperate: 21, cold: 14, paramo: 9 };
+    const monthDelta = [-0.5, 0.2, 0.8, 1.0, 0.6, 0.1, -0.3, -0.2, 0.2, 0.5, 0.3, -0.2];
+    const zoneMult = { livestock: 1.05, crop: 1.0, slope: 0.96, agroindustry: 1.08 };
     const substrateRates = { manure: 0.09, crop: 0.045, pulp: 0.14 };
     const decomposerMult = { aerobic: 1.15, anaerobic: 0.85, fungi: 1.05 };
     const unitConfig = {
-      minutes: { max: 180, step: 1, factorToDays: 1 / 1440, suffix: "min" },
+      minutes: { max: 180, step: 1,   factorToDays: 1 / 1440, suffix: "min" },
       hours:   { max: 72,  step: 0.5, factorToDays: 1 / 24,   suffix: "h" },
       days:    { max: 30,  step: 0.1, factorToDays: 1,        suffix: "días" }
     };
 
     let playing = false;
     let lastFrame = performance.now();
+
+    function getEnvFactor() {
+      const mIdx = parseInt(monthEl.value, 10);
+      const ambientTemp = thermalBase[thermalEl.value] + monthDelta[mIdx];
+      const tempFactor = Math.max(0.45, Math.min(1.45, 0.55 + (ambientTemp / 25) * 0.65));
+      const factor = tempFactor * zoneMult[zoneEl.value];
+      return { ambientTemp, factor };
+    }
+
+    function decompAtUnitTime(tUnit) {
+      const cfg = unitConfig[unitEl.value];
+      const days = tUnit * cfg.factorToDays;
+      const { factor } = getEnvFactor();
+      const k = substrateRates[substrateEl.value] * decomposerMult[decomposerEl.value] * factor;
+      return 1 - Math.exp(-k * days * 2.2);
+    }
 
     function syncUnit() {
       const cfg = unitConfig[unitEl.value];
@@ -131,23 +198,23 @@
     function computeState() {
       const tUnit = parseFloat(sliderEl.value);
       const cfg = unitConfig[unitEl.value];
-      const days = tUnit * cfg.factorToDays;
-      const k = substrateRates[substrateEl.value] * decomposerMult[decomposerEl.value];
-      const frac = 1 - Math.exp(-k * days * 2.2);
-      const biomass = Math.min(100, Math.max(0, Math.sin(Math.min(Math.PI, frac * Math.PI)) * 100 + frac * 35));
-      const temp = 22 + biomass * 0.28;
-      return { tUnit, suffix: cfg.suffix, frac, biomass, temp };
+      const frac = decompAtUnitTime(tUnit);
+      const { ambientTemp, factor } = getEnvFactor();
+      const biomass = Math.min(100, Math.max(0, (Math.sin(Math.min(Math.PI, frac * Math.PI)) * 100 + frac * 35) * Math.min(1.2, factor)));
+      const temp = ambientTemp + biomass * 0.24;
+      return { tUnit, maxUnit: cfg.max, suffix: cfg.suffix, frac, biomass, temp, ambientTemp };
     }
 
     function drawBioreactor(state, nowSec) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const tx = 135, ty = 32, tw = 225, th = 220;
+      // Tanque
+      const tx = 75, ty = 38, tw = 195, th = 210;
       ctx.strokeStyle = "#94a3b8";
       ctx.lineWidth = 3;
       ctx.strokeRect(tx, ty, tw, th);
 
-      const fillHeight = Math.max(35, th * (0.82 - state.frac * 0.35));
+      const fillHeight = Math.max(32, th * (0.82 - state.frac * 0.35));
       const fy = ty + th - fillHeight;
       const r = Math.round(120 - state.frac * 65);
       const g = Math.round(85 - state.frac * 35);
@@ -155,9 +222,9 @@
       ctx.fillStyle = `rgb(${r},${g},${b})`;
       ctx.fillRect(tx + 2, fy, tw - 4, fillHeight - 2);
 
-      const count = Math.round(8 + (state.biomass / 100) * 28);
+      const count = Math.round(8 + (state.biomass / 100) * 26);
       for (let i = 0; i < count; i++) {
-        const px = tx + 16 + ((i * 53 + Math.floor(nowSec * 25)) % (tw - 32));
+        const px = tx + 14 + ((i * 53 + Math.floor(nowSec * 25)) % (tw - 28));
         const py = fy + 10 + ((i * 37 + Math.floor(nowSec * (20 + state.biomass * 0.4))) % Math.max(12, fillHeight - 18));
         ctx.beginPath();
         ctx.arc(px, py, 3 + (i % 3), 0, Math.PI * 2);
@@ -165,16 +232,40 @@
         ctx.fill();
       }
 
-      const gx = 395, gy = 52, gw = 175, gh = 180;
-      ctx.strokeStyle = "#475569";
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(gx, gy, gw, gh);
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillText("Biorreactor", tx, ty - 10);
 
+      // Gráfica específica: % descompuesto vs. tiempo en unidad elegida
+      const gx = 345, gy = 48, gw = 235, gh = 190;
+      ctx.strokeStyle = "#64748b";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(gx, gy);
+      ctx.lineTo(gx, gy + gh);
+      ctx.lineTo(gx + gw, gy + gh);
+      ctx.stroke();
+
+      // Marcas eje Y (0%, 50%, 100%)
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText("100%", gx - 6, gy + 6);
+      ctx.fillText("50%", gx - 6, gy + gh * 0.5 + 4);
+      ctx.fillText("0%", gx - 6, gy + gh + 2);
+
+      // Marcas eje X (0 y máximo en unidad elegida)
+      ctx.textAlign = "left";
+      ctx.fillText(`0 ${state.suffix}`, gx, gy + gh + 16);
+      ctx.textAlign = "right";
+      ctx.fillText(`${state.maxUnit} ${state.suffix}`, gx + gw, gy + gh + 16);
+
+      // Curva completa
       ctx.beginPath();
       for (let x = 0; x <= gw; x += 4) {
         const p = x / gw;
-        const yVal = 1 - Math.exp(-substrateRates[substrateEl.value] * decomposerMult[decomposerEl.value] * (p * 30) * 2.2);
-        const py = gy + gh - yVal * (gh - 12) - 6;
+        const yFrac = decompAtUnitTime(p * state.maxUnit);
+        const py = gy + gh - yFrac * gh;
         if (x === 0) ctx.moveTo(gx + x, py);
         else ctx.lineTo(gx + x, py);
       }
@@ -182,16 +273,18 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      const curX = gx + state.frac * gw;
-      const curY = gy + gh - state.frac * (gh - 12) - 6;
+      // Punto actual
+      const tFrac = state.maxUnit > 0 ? state.tUnit / state.maxUnit : 0;
+      const curX = gx + tFrac * gw;
+      const curY = gy + gh - state.frac * gh;
       ctx.beginPath();
-      ctx.arc(curX, curY, 5, 0, Math.PI * 2);
+      ctx.arc(curX, curY, 5.5, 0, Math.PI * 2);
       ctx.fillStyle = "#22c55e";
       ctx.fill();
 
-      ctx.fillStyle = "#94a3b8";
+      ctx.textAlign = "left";
       ctx.font = "12px system-ui, sans-serif";
-      ctx.fillText("Curva de avance", gx, gy - 8);
+      ctx.fillText(`% Descompuesto vs. Tiempo (${state.suffix})`, gx, gy - 14);
     }
 
     function render(nowMs = performance.now()) {
@@ -200,6 +293,11 @@
       document.getElementById("decompVal").textContent = `${(state.frac * 100).toFixed(1)}%`;
       document.getElementById("biomassVal").textContent = `${state.biomass.toFixed(1)}%`;
       document.getElementById("tempVal").textContent = `${state.temp.toFixed(1)}°C`;
+
+      const monthName = monthEl.options[monthEl.selectedIndex].text;
+      const zoneName = zoneEl.options[zoneEl.selectedIndex].text;
+      envSummaryEl.textContent = `Entorno base: ${state.ambientTemp.toFixed(1)}°C (${thermalEl.options[thermalEl.selectedIndex].text.split(" ")[0]}, ${monthName}) · ${zoneName}.`;
+
       drawBioreactor(state, nowMs / 1000);
     }
 
@@ -221,9 +319,10 @@
       requestAnimationFrame(loop);
     }
 
+    [thermalEl, monthEl, zoneEl, substrateEl, decomposerEl].forEach(el => {
+      el.addEventListener("change", () => render());
+    });
     unitEl.addEventListener("change", syncUnit);
-    substrateEl.addEventListener("change", () => render());
-    decomposerEl.addEventListener("change", () => render());
     sliderEl.addEventListener("input", () => render());
     playBtn.addEventListener("click", () => {
       playing = !playing;
